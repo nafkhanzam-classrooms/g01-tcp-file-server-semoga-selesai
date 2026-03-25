@@ -2,19 +2,19 @@
 # Network Programming - Assignment G01
 
 ## Anggota Kelompok
-| Nama           | NRP        | Kelas     |
-| ---            | ---        | ----------|
-| Melvan Hapianan Allo Ponglabba                |  5025241124          |     Progjar - D      |
-
+| Nama | NRP | Kelas |
+| :--- | :--- | :--- |
+| Melvan Hapianan Allo Ponglabba | 5025241124 | Progjar - D |
 
 ## Link Youtube (Unlisted)
-Link ditaruh di bawah ini
-```
-https://youtu.be/weM4sptl9_o
-```
+[https://youtu.be/weM4sptl9_o](https://youtu.be/weM4sptl9_o)
+
+---
 
 ## Penjelasan Program
-### client.py
+
+### 1. `client.py`
+```python
 import socket
 import threading
 import os
@@ -106,10 +106,13 @@ def start_client():
 
 if __name__ == "__main__":
     start_client()
-Client menggunakan pendekatan multithreading. Main thread digunakan untuk menangani input dari user (mengetik command/chat), sedangkan sebuah background thread berjalan secara bersamaan untuk terus mendengarkan broadcast message atau transfer file dari server. Hal ini memastikan aplikasi client tidak pernah freeze saat menunggu balasan server.
+```
+**Penjelasan:** Client menggunakan pendekatan **multithreading**. Main thread digunakan untuk menangani input dari user (mengetik command/chat), sedangkan sebuah background thread berjalan secara bersamaan untuk terus mendengarkan broadcast message atau transfer file dari server. Hal ini memastikan aplikasi client tidak pernah *freeze* saat menunggu balasan server.
 
+---
 
-### server-sync.py
+### 2. `server-sync.py`
+```python
 import socket
 import os
 
@@ -196,9 +199,13 @@ def start_sync_server():
 
 if __name__ == "__main__":
     start_sync_server()
-Ini adalah server baseline yang bersifat blocking / synchronous. Server ini hanya bisa menangani satu client pada satu waktu. Jika ada client kedua yang mencoba connect, mereka akan terjebak dalam antrian (waiting) sampai client pertama disconnect.
+```
+**Penjelasan:** Ini adalah server *baseline* yang bersifat *blocking / synchronous*. Server ini hanya bisa menangani **satu client pada satu waktu**. Jika ada client kedua yang mencoba connect, mereka akan terjebak dalam antrian (waiting) sampai client pertama disconnect.
 
-### server-select.py
+---
+
+### 3. `server-select.py`
+```python
 import socket
 import select
 import os
@@ -303,10 +310,14 @@ def start_select_server():
 
 if __name__ == "__main__":
     start_select_server()
-Daripada membuat banyak thread, server ini hanya menggunakan satu thread utama dan memanfaatkan fungsi select.select() untuk secara cepat memonitor daftar seluruh socket yang terkoneksi. Server hanya akan memproses socket yang secara aktif siap untuk mengirim atau menerima data.
+```
+**Penjelasan:** Server ini menggunakan teknik **I/O Multiplexing**. Daripada membuat banyak thread, server ini hanya menggunakan satu thread utama dan memanfaatkan fungsi `select.select()` untuk secara cepat memonitor daftar seluruh socket yang terkoneksi. Server hanya akan memproses socket yang secara aktif siap untuk mengirim atau menerima data.
 
-  ### server-thread.py
-  import socket
+---
+
+### 4. `server-thread.py`
+```python
+import socket
 import threading
 import os
 
@@ -379,8 +390,8 @@ def handle_client(client_socket, addr):
                             with open(filepath, 'rb') as f:
                                 while (chunk := f.read(BUFFER_SIZE)):
                                     client_socket.sendall(chunk)
-                    else:
-                        client_socket.sendall(f"MSG|Error: File '{filename}' not found.".encode('utf-8'))
+                else:
+                    client_socket.sendall(f"MSG|Error: File '{filename}' not found.".encode('utf-8'))
 
     except Exception as e:
         print(f"[-] Error with client {addr}: {e}")
@@ -407,10 +418,14 @@ def start_thread_server():
 
 if __name__ == "__main__":
     start_thread_server()
-Server ini memecahkan masalah blocking dengan cara melakukan spawning / membuat sebuah background thread baru untuk setiap client yang terkoneksi. Hal ini memungkinkan banyak pengguna untuk chatting secara bersamaan.
+```
+**Penjelasan:** Server ini memecahkan masalah *blocking* dengan cara melakukan *spawning* / membuat sebuah background thread baru untuk setiap client yang terkoneksi. Hal ini memungkinkan banyak pengguna untuk chatting secara bersamaan.
 
-  ### server-poll.py (Ubuntu/WSL only)
-  import socket
+---
+
+### 5. `server-poll.py` (Ubuntu/WSL only)
+```python
+import socket
 import select
 import os
 import sys
@@ -528,7 +543,11 @@ def start_poll_server():
 
 if __name__ == "__main__":
     start_poll_server()
-Ini adalah versi I/O multiplexing yang jauh lebih efisien dibandingkan select. Alih-alih melakukan scanning terhadap daftar koneksi yang panjang, poll() mendaftarkan socket langsung ke sistem operasi (OS kernel). OS akan langsung mengirimkan "event" ketika ada data yang masuk. Sistem pemanggilan poll() hanya didukung oleh arsitektur Unix (Linux/macOS) dan tidak dapat dijalankan secara native di Windows PowerShell tanpa WSL.
+```
+**Penjelasan:** Ini adalah versi I/O multiplexing yang jauh lebih efisien dibandingkan `select`. Alih-alih melakukan scanning terhadap daftar koneksi yang panjang, `poll()` mendaftarkan socket langsung ke sistem operasi (OS kernel). OS akan langsung mengirimkan "event" ketika ada data yang masuk. Sistem pemanggilan `poll()` hanya didukung oleh arsitektur Unix (Linux/macOS) dan tidak dapat dijalankan secara native di Windows PowerShell tanpa WSL.
+
+---
+
 ## Screenshot Hasil
 
 ### Server-sync
@@ -543,10 +562,6 @@ Ini adalah versi I/O multiplexing yang jauh lebih efisien dibandingkan select. A
 ### Server-poll
 <img width="772" height="148" alt="image" src="https://github.com/user-attachments/assets/0f41fc99-f88f-4218-b8a0-515b44202d6f" />
 
-
 ### Broadcast dari client lain
 <img width="821" height="475" alt="image" src="https://github.com/user-attachments/assets/252e09ff-449e-4cc7-9256-913a6d618e7d" />
 <img width="755" height="266" alt="image" src="https://github.com/user-attachments/assets/6093eb07-30a5-48dd-8194-5e77aa30c734" />
-
-
-
