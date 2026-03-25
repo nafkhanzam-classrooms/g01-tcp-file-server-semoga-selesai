@@ -541,9 +541,12 @@ Ini adalah versi I/O multiplexing yang jauh lebih efisien dibandingkan select. A
 <img width="619" height="181" alt="image" src="https://github.com/user-attachments/assets/ef88ec5b-7af7-4765-aa50-3761fc90cf73" />
 
 ### Server-poll
-![Uploading image.png…]()
+<img width="772" height="148" alt="image" src="https://github.com/user-attachments/assets/0f41fc99-f88f-4218-b8a0-515b44202d6f" />
+
 
 ### Broadcast dari client lain
+<img width="821" height="475" alt="image" src="https://github.com/user-attachments/assets/252e09ff-449e-4cc7-9256-913a6d618e7d" />
+<img width="755" height="266" alt="image" src="https://github.com/user-attachments/assets/6093eb07-30a5-48dd-8194-5e77aa30c734" />
 
 
 
