@@ -530,3 +530,20 @@ if __name__ == "__main__":
     start_poll_server()
 Ini adalah versi I/O multiplexing yang jauh lebih efisien dibandingkan select. Alih-alih melakukan scanning terhadap daftar koneksi yang panjang, poll() mendaftarkan socket langsung ke sistem operasi (OS kernel). OS akan langsung mengirimkan "event" ketika ada data yang masuk. Sistem pemanggilan poll() hanya didukung oleh arsitektur Unix (Linux/macOS) dan tidak dapat dijalankan secara native di Windows PowerShell tanpa WSL.
 ## Screenshot Hasil
+
+### Server-sync
+<img width="582" height="187" alt="image" src="https://github.com/user-attachments/assets/f00a5298-f9a8-4acc-af6f-bfedffd973cb" />
+
+### Server-select
+<img width="595" height="147" alt="image" src="https://github.com/user-attachments/assets/305788e6-a3d1-4a41-9413-7da16a5ef385" />
+
+### Server-thread
+<img width="619" height="181" alt="image" src="https://github.com/user-attachments/assets/ef88ec5b-7af7-4765-aa50-3761fc90cf73" />
+
+### Server-poll
+![Uploading image.png…]()
+
+### Broadcast dari client lain
+
+
+
